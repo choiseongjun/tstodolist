@@ -1,4 +1,4 @@
-import { ListsAction, ListState, Lists, ADD_LIST, GET_LISTS, GET_LIST_BY_ID, SET_LISTID_TO_DELETE, SET_LIST_TO_EDIT, DELETE_LIST, UPDATE_LIST, SET_SELECTED_LIST, ADD_TASK, SET_TASK_TO_DELETE, UNSET_TASK_TO_DELETE, DELETE_TASK, SET_TASK_TO_EDIT, UNSET_TASK_TO_EDIT, UPDATE_TASK } from "../types";
+import { ListsAction,ADD_LIST_REQUEST,ADD_LIST_FAILURE, ListState, Lists, ADD_LIST_SUCCESS, GET_LISTS, GET_LIST_BY_ID, SET_LISTID_TO_DELETE, SET_LIST_TO_EDIT, DELETE_LIST, UPDATE_LIST, SET_SELECTED_LIST, ADD_TASK, SET_TASK_TO_DELETE, UNSET_TASK_TO_DELETE, DELETE_TASK, SET_TASK_TO_EDIT, UNSET_TASK_TO_EDIT, UPDATE_TASK } from "../types";
 
 const initialState: ListState = {
   lists: {},
@@ -7,7 +7,8 @@ const initialState: ListState = {
   listById: null,
   selectedList: null,
   taskToDelete: null,
-  taskToEdit: null
+  taskToEdit: null,
+  postError:""
 }
 
 // Helper functions
@@ -25,17 +26,24 @@ const saveListsToLS = (lists: Lists) => {
 
 export default (state = initialState, action: ListsAction): ListState => {
   const listsFromLS = getListsFromLS();
-
+  console.log(action)
   switch(action.type) {
-    case ADD_LIST:
-      const clonedListsFromLS = {...listsFromLS};
+
+    case ADD_LIST_REQUEST:
+      state.postError="post";
+      return {...state}
+
+    case ADD_LIST_SUCCESS:
+      const clonedListsFromLS = {...listsFromLS}; 
       clonedListsFromLS[action.payload.id] = action.payload;
       saveListsToLS(clonedListsFromLS);
       return {
         ...state,
         lists: clonedListsFromLS
       }
-
+    case ADD_LIST_FAILURE:
+      state.postError=action.error
+      return {...state}
     case GET_LISTS:
       return {
         ...state,
