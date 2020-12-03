@@ -23,7 +23,7 @@ const CreateNewList: FC = () => {
       id: `list-${new Date().getTime()}`,
       name: listName,
       tasks: []
-    } 
+    }  
 
     dispatch(addList(newList));
     dispatch(setNotification(`New list("${newList.name}") created!`));
