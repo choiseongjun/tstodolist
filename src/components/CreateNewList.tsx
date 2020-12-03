@@ -29,7 +29,7 @@ const CreateNewList: FC = () => {
     dispatch(setNotification(`New list("${newList.name}") created!`));
     setListName('');
   }
-
+ 
   return(
     <div className="card mb-5">
       <div className="card-header">
