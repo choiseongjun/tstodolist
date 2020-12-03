@@ -1,4 +1,22 @@
-import { List, ListsAction, ADD_LIST_REQUEST, GET_LISTS, GET_LIST_BY_ID, SET_LISTID_TO_DELETE, SET_LIST_TO_EDIT, SET_SELECTED_LIST, DELETE_LIST, UPDATE_LIST, Task, ADD_TASK, SET_TASK_TO_DELETE, UNSET_TASK_TO_DELETE, DELETE_TASK, SET_TASK_TO_EDIT, UNSET_TASK_TO_EDIT, UPDATE_TASK } from "../types";
+import { List
+        , ListsAction
+        , ADD_LIST_REQUEST
+        , SET_LISTID_TO_DELETE
+        , SET_LIST_TO_EDIT
+        , SET_SELECTED_LIST
+        , DELETE_LIST
+        , UPDATE_LIST
+        , Task
+        , ADD_TASK
+        , SET_TASK_TO_DELETE
+        , UNSET_TASK_TO_DELETE
+        , DELETE_TASK
+        , SET_TASK_TO_EDIT
+        , UNSET_TASK_TO_EDIT
+        , UPDATE_TASK
+        , GET_LISTS_REQUEST
+        , GET_LIST_BY_ID_REQUEST
+         } from "../types";
 
 
 export const addList = (list: List): ListsAction => {
@@ -10,13 +28,14 @@ export const addList = (list: List): ListsAction => {
 
 export const getLists = (): ListsAction => {
   return {
-    type: GET_LISTS
+    type: GET_LISTS_REQUEST,
+    payload:Array
   }
 }
 
 export const getListById = (id: string): ListsAction => {
   return {
-    type: GET_LIST_BY_ID,
+    type: GET_LIST_BY_ID_REQUEST,
     payload: id
   }
 }

@@ -1,4 +1,28 @@
-import { ListsAction,ADD_LIST_REQUEST,ADD_LIST_FAILURE, ListState, Lists, ADD_LIST_SUCCESS, GET_LISTS, GET_LIST_BY_ID, SET_LISTID_TO_DELETE, SET_LIST_TO_EDIT, DELETE_LIST, UPDATE_LIST, SET_SELECTED_LIST, ADD_TASK, SET_TASK_TO_DELETE, UNSET_TASK_TO_DELETE, DELETE_TASK, SET_TASK_TO_EDIT, UNSET_TASK_TO_EDIT, UPDATE_TASK } from "../types";
+import { ListsAction
+        ,ADD_LIST_REQUEST
+        ,ADD_LIST_FAILURE
+        , ListState
+        , Lists
+        , ADD_LIST_SUCCESS
+        , GET_LISTS_REQUEST
+        , GET_LISTS_SUCCESS
+        , GET_LISTS_FAILURE
+        , GET_LIST_BY_ID_REQUEST
+        , GET_LIST_BY_ID_SUCCESS
+        , GET_LIST_BY_ID_FAILURE
+        , SET_LISTID_TO_DELETE
+        , SET_LIST_TO_EDIT
+        , DELETE_LIST
+        , UPDATE_LIST
+        , SET_SELECTED_LIST
+        , ADD_TASK
+        , SET_TASK_TO_DELETE
+        , UNSET_TASK_TO_DELETE
+        , DELETE_TASK
+        , SET_TASK_TO_EDIT
+        , UNSET_TASK_TO_EDIT
+        , UPDATE_TASK
+        } from "../types";
 
 const initialState: ListState = {
   lists: {},
@@ -8,7 +32,16 @@ const initialState: ListState = {
   selectedList: null,
   taskToDelete: null,
   taskToEdit: null,
-  postError:""
+  postError:'',
+  addPostLoading:false,
+  addPostDone:false,
+  addPostError:'',
+  getPostLoading:false,
+  getPostDone:false,
+  getPostError:'',
+  getPostIdLoading:false,
+  getPostIdDone:false,
+  getPostIdError:''
 }
 
 // Helper functions
@@ -26,12 +59,17 @@ const saveListsToLS = (lists: Lists) => {
 
 export default (state = initialState, action: ListsAction): ListState => {
   const listsFromLS = getListsFromLS();
-  console.log(action)
+
+
   switch(action.type) {
 
     case ADD_LIST_REQUEST:
       state.postError="post";
-      return {...state}
+      return {
+              ...state
+              ,addPostLoading:true
+              ,addPostDone:false
+      }
 
     case ADD_LIST_SUCCESS:
       const clonedListsFromLS = {...listsFromLS}; 
@@ -42,21 +80,39 @@ export default (state = initialState, action: ListsAction): ListState => {
         lists: clonedListsFromLS
       }
     case ADD_LIST_FAILURE:
-      state.postError=action.error
-      return {...state}
-    case GET_LISTS:
+      return {
+            ...state,
+            postError: action.error
+      }
+    case GET_LISTS_REQUEST:
+      return {
+              ...state,
+              getPostLoading: true
+      }
+    case GET_LISTS_SUCCESS:
       return {
         ...state,
         lists: listsFromLS
       }
-
-    case GET_LIST_BY_ID:
+    case GET_LISTS_FAILURE:
+      return {...state};
+    case GET_LIST_BY_ID_REQUEST:
+      return {
+              ...state,
+              getPostIdLoading:true,
+              getPostIdDone:false
+      };
+    case GET_LIST_BY_ID_SUCCESS:
       const list = listsFromLS[action.payload];
       return {
         ...state,
         listById: list
       }
-
+    case GET_LIST_BY_ID_FAILURE:
+      return {
+              ...state,
+              getPostIdError:action.error
+      };
     case SET_LISTID_TO_DELETE:
       return {
         ...state,

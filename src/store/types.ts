@@ -1,9 +1,16 @@
-export const GET_LISTS = 'GET_LISTS';
-export const GET_LIST_BY_ID = 'GET_LIST_BY_ID';
+//리스트 조회
+export const GET_LISTS_REQUEST = 'GET_LISTS_REQUEST';
+export const GET_LISTS_SUCCESS = 'GET_LISTS_SUCCESS';
+export const GET_LISTS_FAILURE = 'GET_LISTS_FAILURE';
 
+export const GET_LIST_BY_ID_REQUEST = 'GET_LIST_BY_ID_REQUEST';
+export const GET_LIST_BY_ID_SUCCESS = 'GET_LIST_BY_ID_SUCCESS';
+export const GET_LIST_BY_ID_FAILURE = 'GET_LIST_BY_ID_FAILURE';
+//리스트 추가
 export const ADD_LIST_REQUEST = 'ADD_LIST_REQUEST';
 export const ADD_LIST_SUCCESS = 'ADD_LIST_SUCCESS';
 export const ADD_LIST_FAILURE = 'ADD_LIST_FAILURE';
+
 
 export const DELETE_LIST = 'DELETE_LIST';
 export const UPDATE_LIST = 'UPDATE_LIST';
@@ -32,6 +39,9 @@ export interface List {
   id: string;
   tasks: Task[];
 }
+export interface Req{
+  name:string;
+}
 
 export interface Lists {
   [id: string]: List
@@ -49,14 +59,28 @@ interface AddListFailure{
   type: typeof ADD_LIST_FAILURE;
   error:string;
 }
-
-interface GetListsAction {
-  type: typeof GET_LISTS;
+interface GetListReq{
+  type:typeof GET_LISTS_REQUEST;
+  payload:Req;
 }
-
-interface GetListByIdAction {
-  type: typeof GET_LIST_BY_ID;
+interface GetListsAction {
+  type: typeof GET_LISTS_SUCCESS;
+}
+interface GetListFailure{
+  type:typeof GET_LISTS_FAILURE;
+  error:string;
+}
+interface GetListByIdReq {
+  type:typeof GET_LIST_BY_ID_REQUEST;
   payload: string;
+}
+interface GetListByIdAction {
+  type: typeof GET_LIST_BY_ID_SUCCESS;
+  payload: string;
+}
+interface GetListByIdFailure{
+  type: typeof GET_LIST_BY_ID_FAILURE;
+  error: string;
 }
 
 interface SetListIdToDeleteAction {
@@ -145,7 +169,27 @@ interface SetNotificationAction {
   }
 }
 
-export type ListsAction = AddListAction|AddListReq|AddListFailure | GetListsAction | GetListByIdAction | SetListIdToDeleteAction | SetListToEditAction | DeleteListAction | UpdateListAction | SetSelectedListAction | AddTaskAction | DeleteTaskAction | SetTaskToDeleteAction | UnsetTaskToDeleteAction | EditTaskAction | SetTaskToEditAction | UnsetTaskToEditAction;
+export type ListsAction = AddListAction
+                          | AddListReq
+                          | AddListFailure 
+                          | GetListsAction 
+                          | GetListByIdAction 
+                          | SetListIdToDeleteAction 
+                          | SetListToEditAction 
+                          | DeleteListAction 
+                          | UpdateListAction 
+                          | SetSelectedListAction 
+                          | AddTaskAction 
+                          | DeleteTaskAction 
+                          | SetTaskToDeleteAction 
+                          | UnsetTaskToDeleteAction 
+                          | EditTaskAction 
+                          | SetTaskToEditAction 
+                          | UnsetTaskToEditAction
+                          | GetListReq
+                          | GetListFailure
+                          | GetListByIdReq
+                          | GetListByIdFailure;
 
 export type NotificationAction = SetNotificationAction;
 
@@ -164,6 +208,15 @@ export interface ListState {
     task: Task;
     list: List;
   } | null;
+  addPostLoading:boolean;
+  addPostDone:boolean;
+  addPostError:string;
+  getPostLoading:boolean;
+  getPostDone:boolean;
+  getPostError:string;
+  getPostIdLoading:boolean;
+  getPostIdDone:boolean; 
+  getPostIdError:string;
 }
 
 export interface NotificationState {
